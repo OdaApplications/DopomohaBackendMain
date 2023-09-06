@@ -1,13 +1,13 @@
 require("dotenv").config();
 
 const app = require("./app");
-// const { connectToSQL } = require("./models/connection");
+const { connectToSQL } = require("./models/connection");
 
 const PORT = process.env.PORT || 4080;
 
 const start = async () => {
   try {
-    // await connectToSQL();
+    await connectToSQL();
 
     app.listen(PORT, (err) => {
       if (err) {

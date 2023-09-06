@@ -2,9 +2,12 @@
 
 Dopomoha backend main - Node.js, MYSQL
 
-# done
-
 # todo
+
+-pdf
+-mailer
+
+# done
 
 # future todo
 
