@@ -12,26 +12,55 @@ const sendFiles = async (req, res, next) => {
   console.log(to, subject, message, headers);
 
   try {
-    // const pathToFile = await createMessagePdf(req.body);
-    // const data = fs.readFileSync(pathToFile);
+    // Отримати шляхи до завантажених файлів з req.files
+    const uploadedFiles = req.files;
+    console.log("+++:", uploadedFiles);
 
-    // res.contentType("application/pdf");
-    // res.setHeader("Content-Disposition", "attachment; filename=shliakh.pdf");
+    // Перевірити, чи були завантажені файли
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      return res.status(400).json({
+        message: "No uploaded files",
+        code: 400,
+      });
+    }
 
+    const attachments = uploadedFiles.map((file) => {
+      let contentType;
+
+      // Перевірити розширення файлу
+      if (file.originalname.endsWith(".pdf")) {
+        contentType = "application/pdf";
+      } else if (file.originalname.endsWith(".zip")) {
+        contentType = "application/zip";
+      } else {
+        // Якщо розширення не відомо, то залишити contentType порожнім або іншим значенням за замовчуванням
+        contentType = "application/octet-stream"; // Інше значення за замовчуванням
+      }
+
+      return {
+        filename: file.originalname,
+        path: file.path,
+        contentType,
+      };
+    });
+
+    console.log("attachments:", attachments);
+
+    // Надіслати листа з вкладенням
     await mailer.sendMail({
       from: process.env.MAILER_USERNAME,
       to,
       subject,
       text: message,
-      // attachments: [
-      //   {
-      //     filename: "shliakh.pdf",
-      //     path: pathToFile,
-      //   },
-      // ],
+      attachments,
     });
 
-    // await res.status(201).send(data);
+    // Видалити тимчасові файли
+    for (const file of uploadedFiles) {
+      fs.unlink(file.path, (err) => {
+        if (err) console.log(err);
+      });
+    }
 
     next();
   } catch (error) {

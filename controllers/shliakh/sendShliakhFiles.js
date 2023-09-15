@@ -1,50 +1,71 @@
 const fs = require("fs");
+const { mailer } = require("../../models");
 
 const sendShliakhFiles = async (req, res, next) => {
-  const files = req.files;
+  const {
+    to = "nickleso.work@gmail.com",
+    subject = "test email",
+    message = "TEST",
+    headers = null,
+  } = req.body;
 
-  console.log("files:", files);
+  console.log(to, subject, message, headers);
 
   try {
-    const files = req.files; // Отримуємо масив завантажених файлів
-    if (!files || files.length === 0) {
+    // Отримати шляхи до завантажених файлів з req.files
+    const uploadedFiles = req.files;
+
+    // Перевірити, чи були завантажені файли
+    if (!uploadedFiles || uploadedFiles.length === 0) {
       return res.status(400).json({
-        message: "No files uploaded",
+        message: "No uploaded files",
         code: 400,
       });
     }
 
-    // Зберігаємо файли у директорії temp
-    const savedFiles = [];
-    for (const file of files) {
-      console.log("++", file);
-      const { path: tempUpload, originalname } = file;
-      // Тут зберігайте файли в директорії temp, як вам потрібно
-      // Наприклад, використовуючи fs.copyFile або інші методи
-      savedFiles.push({ tempUpload, originalname });
+    const attachments = uploadedFiles.map((file) => {
+      let contentType;
+
+      // Перевірити розширення файлу
+      if (file.originalname.endsWith(".pdf")) {
+        contentType = "application/pdf";
+      } else if (file.originalname.endsWith(".zip")) {
+        contentType = "application/zip";
+      } else {
+        // Якщо розширення не відомо, то залишити contentType порожнім або іншим значенням за замовчуванням
+        contentType = "application/octet-stream"; // Інше значення за замовчуванням
+      }
+
+      return {
+        filename: file.originalname,
+        path: file.path,
+        contentType,
+      };
+    });
+
+    // Надіслати листа з вкладенням
+    await mailer.sendMail({
+      from: process.env.MAILER_USERNAME,
+      to,
+      subject,
+      text: message,
+      attachments,
+    });
+
+    // Видалити тимчасові файли
+    for (const file of uploadedFiles) {
+      fs.unlink(file.path, (err) => {
+        if (err) console.log(err);
+      });
     }
 
     return res.status(200).json({
-      message: "Files uploaded successfully",
+      message: "success",
       code: 200,
-      files: savedFiles,
     });
-    // fs.unlink(pathToFile, (err) => {
-    //   if (err) {
-    //     return res.status(404).json({
-    //       message: "file error",
-    //       code: 404,
-    //     });
-    //   }
-
-    //   return res.status(200).json({
-    //     message: "message sent",
-    //     code: 200,
-    //   });
-    // });
   } catch (error) {
     return res.status(500).json({
-      message: error.message,
+      message: "send email error",
       code: 500,
     });
   }

@@ -6,8 +6,7 @@ const { sendShliakhFiles } = require("../../controllers/shliakh");
 
 shliakhRouter.post(
   "/send-shliakh",
-  upload.array("shliakh", 1),
-  // sendFiles,
+  upload.array(),
   ctrlWrapper(sendShliakhFiles)
 );
 
