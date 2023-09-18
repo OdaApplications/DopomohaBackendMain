@@ -3,116 +3,126 @@ const path = require("path");
 const PdfPrinter = require("pdfmake");
 
 const createShliakhPdf = async (req, res, next) => {
-  //   const shliakhData = req.body;
+  const {
+    organizationName = "дані відсутні",
+    pibDirector = "дані відсутні",
+    organizationType = "дані відсутні",
+    organizationCode = "дані відсутні",
+    organizationAdress = "дані відсутні",
+    organizationTel = "дані відсутні",
+    organizationMail = "дані відсутні",
+    pibContactPerson = "дані відсутні",
+    telContactPerson = "дані відсутні",
+    daysCount = "дані відсутні",
+    directorPosition = "дані відсутні",
 
-  const nameSubject = `ТОВ "Піддриємтсво"`;
-  const namePIP = "Івановський Михайло Михайлович";
-  const opForma = "товариство з обмеженою відповідальністю";
-  const addressSubjekt = "м. Ужгород, вул. Собранецька, 4";
+    drivers = "дані відсутні",
+  } = req.body;
 
-  const shliakhData = {
-    company: {
-      nameSubject,
-      namePIP,
-      opForma,
-      edrpou: "11223344",
-      addressSubjekt,
-      phoneSubjekt: "+38(050)888-88-88",
-      emailSubjekt: "example@mail.com",
-      contactName: "Сидор Іван Іванович",
-      contactOsobaTel: "+38(050)888-88-88",
-      daysNum: "5",
-      posada: "директор",
-      firmFullName: `${opForma} ${nameSubject}, ${addressSubjekt}`,
-      date: new Date(),
-    },
-  };
+  console.log(
+    "++:",
+    organizationName,
+    pibDirector,
+    organizationType,
+    organizationCode,
+    organizationAdress,
+    organizationTel,
+    organizationMail,
+    pibContactPerson,
+    telContactPerson,
+    daysCount,
+    directorPosition,
 
-  // const firstNameFirstLetter = shliakhData.company.namePIP[1][0].toUpperCase();
-  // const BNameFirstLetter = shliakhData.company.namePIP[2][0].toUpperCase();
+    drivers
+  );
 
-  // const firstNameFirstLetter = "Л.";
-  // const BNameFirstLetter = "К.";
-  const fullNameForSign = `${shliakhData.company.namePIP}`;
+  const firmFullName = `${organizationType} ${organizationName}, ${organizationAdress}`;
+  const date = new Date();
 
-  // const months = [
-  //   "січня",
-  //   "лютого",
-  //   "березня",
-  //   "квітня",
-  //   "травня",
-  //   "червня",
-  //   "липня",
-  //   "серпня",
-  //   "вересня",
-  //   "жовтня",
-  //   "листопада",
-  //   "грудня",
-  // ];
+  const pibDirectorArray = pibDirector.split(" ");
+  const firstNameFirstLetter = pibDirectorArray[1][0].toUpperCase();
+  const BNameFirstLetter = pibDirectorArray[2][0].toUpperCase();
+
+  const fullNameForSign = pibDirector;
+
+  const months = [
+    "січня",
+    "лютого",
+    "березня",
+    "квітня",
+    "травня",
+    "червня",
+    "липня",
+    "серпня",
+    "вересня",
+    "жовтня",
+    "листопада",
+    "грудня",
+  ];
 
   try {
-    // const fullDate = `«${date.getDate()}» ${
-    //   months[date.getMonth()]
-    // } ${date.getFullYear()}`;
+    const fullDate = `«${date.getDate()}» ${
+      months[date.getMonth()]
+    } ${date.getFullYear()}`;
 
     // const newDrivers = [];
     // let updatedDrivers = [];
 
-    // const createAmountOfDrivers = function (x) {
-    //   let k = 0;
-    //   let j = 8;
-    //   const edrpouForTable = document.querySelector('[name = "edrpou"]').value;
-    //   for (let i = 0; i < x.length / 8; i++) {
-    //     updatedDrivers = [];
-    //     let newItem = x.slice(k, j);
-    //     let day = newItem[3];
-    //     let month = newItem[4];
-    //     let year = newItem[5];
-    //     let driverBirthDate = `${day}.${month}.${year}`;
+    const createAmountOfDrivers = function (x) {
+      let k = 0;
+      let j = 8;
 
-    //     newItem.splice(3, 3, driverBirthDate);
+      for (let i = 0; i < x.length / 8; i++) {
+        updatedDrivers = [];
+        let newItem = x.slice(k, j);
+        let day = newItem[3];
+        let month = newItem[4];
+        let year = newItem[5];
+        let driverBirthDate = `${day}.${month}.${year}`;
 
-    //     newItem.splice(2, 0, `${firmFullName}`);
+        newItem.splice(3, 3, driverBirthDate);
 
-    //     newItem.unshift(i + 1);
+        newItem.splice(2, 0, `${firmFullName}`);
 
-    //     updatedDrivers.push(newItem[0]);
-    //     updatedDrivers.push(newItem[1]);
-    //     updatedDrivers.push(newItem[5]);
-    //     updatedDrivers.push(newItem[2]);
-    //     updatedDrivers.push(newItem[4]);
-    //     updatedDrivers.push(`${newItem[3]}, ЄДРПОУ ${edrpouForTable}`);
-    //     updatedDrivers.push(newItem[6]);
-    //     updatedDrivers.push(newItem[7]);
-    //     newDrivers.push([...updatedDrivers]);
-    //     k += 8;
-    //     j += 8;
-    //   }
-    // };
+        newItem.unshift(i + 1);
+
+        updatedDrivers.push(newItem[0]);
+        updatedDrivers.push(newItem[1]);
+        updatedDrivers.push(newItem[5]);
+        updatedDrivers.push(newItem[2]);
+        updatedDrivers.push(newItem[4]);
+        updatedDrivers.push(
+          `${newItem[3]}, ЄДРПОУ ${organizationCodeForTable}`
+        );
+        updatedDrivers.push(newItem[6]);
+        updatedDrivers.push(newItem[7]);
+        newDrivers.push([...updatedDrivers]);
+        k += 8;
+        j += 8;
+      }
+    };
 
     // createAmountOfDrivers(valDrivers);
 
-    // const headers = [
-    //   "№ п/п",
-    //   `ПІБ водія`,
-    //   "Дата народження водія",
-    //   "Серія закордонного паспорта водія",
-    //   "Номер закордонного паспорта водія",
-    //   "Назва компанії",
-    //   "Номер телефону водія",
-    //   "Email водія",
-    // ];
+    const headers = [
+      "№ п/п",
+      `ПІБ водія`,
+      "Дата народження водія",
+      "Серія закордонного паспорта водія",
+      "Номер закордонного паспорта водія",
+      "Назва компанії",
+      "Номер телефону водія",
+      "Email водія",
+    ];
 
-    // newDrivers.unshift(headers);
+    newDrivers.unshift(headers);
+    const arrDrivers = [...newDrivers];
 
     const fonts = {
       TimesNew: {
         normal: path.join(process.cwd(), "fonts", "times", "times.ttf"),
       },
     };
-
-    console.log(fonts.TimesNew.normal);
-    // const arrDrivers = [...newDrivers];
 
     const shliakh = {
       info: {
@@ -128,22 +138,22 @@ const createShliakhPdf = async (req, res, next) => {
 
       content: [
         {
-          text: `${shliakhData.company.opForma.toUpperCase()}`,
+          text: `${organizationType.toUpperCase()}`,
           alignment: "center",
           fontSize: 14,
         },
         {
-          text: `${shliakhData.company.nameSubject.toUpperCase()}`,
+          text: `${organizationName.toUpperCase()}`,
           alignment: "center",
           fontSize: 14,
         },
         {
-          text: `${shliakhData.company.addressSubjekt}, тел. ${shliakhData.company.phoneSubjekt},`,
+          text: `${organizationAdress}, тел. ${organizationTel},`,
           alignment: "center",
           fontSize: 12,
         },
         {
-          text: `код ЄДРПОУ ${shliakhData.company.edrpou}, e-mail: ${shliakhData.company.emailSubjekt}`,
+          text: `код ЄДРПОУ ${organizationCode}, e-mail: ${organizationMail}`,
           alignment: "center",
           fontSize: 12,
         },
@@ -204,7 +214,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: `в'їзд в Україну в спрощеному порядку для доставки гуманітарної допомоги з країн Європейського Союзу. Перетин кордону буде здійснюватися неодноразово для надання гуманітарної допомоги. Строк дії перетину кордону у спрощеному порядку ${shliakhData.company.daysNum} днів.`,
+          text: `в'їзд в Україну в спрощеному порядку для доставки гуманітарної допомоги з країн Європейського Союзу. Перетин кордону буде здійснюватися неодноразово для надання гуманітарної допомоги. Строк дії перетину кордону у спрощеному порядку ${daysCount} днів.`,
           alignment: "justified",
           fontSize: 14,
         },
@@ -220,7 +230,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: `Набувач гуманітарної допомоги: ${shliakhData.company.nameSubject} код ЄДРПОУ ${shliakhData.company.edrpou}, ${shliakhData.company.addressSubjekt}, e-mail: ${shliakhData.company.emailSubjekt}.`,
+          text: `Набувач гуманітарної допомоги: ${organizationName} код ЄДРПОУ ${organizationCode}, ${organizationAdress}, e-mail: ${organizationMail}.`,
           alignment: "justified",
           margin: [25, 0, 0, 0],
           fontSize: 14,
@@ -232,7 +242,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: `${shliakhData.company.contactName}, номер телефону ${shliakhData.company.contactOsobaTel}`,
+          text: `${pibContactPerson}, номер телефону ${telContactPerson}`,
           alignment: "justified",
           fontSize: 14,
         },
@@ -278,7 +288,7 @@ const createShliakhPdf = async (req, res, next) => {
           margin: [25, 0, 0, 0],
         },
         {
-          text: `${shliakhData.company.posada}`,
+          text: `${directorPosition}`,
           alignment: "left",
           fontSize: 14,
         },
@@ -393,29 +403,23 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
           margin: [25, 0, 0, 0],
         },
-        // {
-        //   table: {
-        //     widths: [
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //       "auto",
-        //     ],
-        //     // body: [...arrDrivers],
-        //   },
-        //   alignment: "left",
-        //   margin: [0, 16, 0, 0],
-        //   fontSize: 10,
-        // },
         {
-          text: " ",
-          alignment: "justified",
-          fontSize: 14,
-          margin: [25, 0, 0, 0],
+          table: {
+            widths: [
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+              "auto",
+            ],
+            body: [...arrDrivers],
+          },
+          alignment: "left",
+          margin: [0, 16, 0, 0],
+          fontSize: 10,
         },
         {
           text: " ",
@@ -436,7 +440,13 @@ const createShliakhPdf = async (req, res, next) => {
           margin: [25, 0, 0, 0],
         },
         {
-          text: `${shliakhData.company.posada}`,
+          text: " ",
+          alignment: "justified",
+          fontSize: 14,
+          margin: [25, 0, 0, 0],
+        },
+        {
+          text: `${directorPosition}`,
           alignment: "left",
           fontSize: 14,
         },
@@ -453,8 +463,6 @@ const createShliakhPdf = async (req, res, next) => {
     };
 
     const printer = new PdfPrinter(fonts);
-
-    // Використовуйте Buffer для створення PDF асинхронно
     const pdfDoc = printer.createPdfKitDocument(shliakh);
     const pdfChunks = [];
 
@@ -469,31 +477,9 @@ const createShliakhPdf = async (req, res, next) => {
       res.contentType("application/pdf");
       res.setHeader("Content-Disposition", "attachment; filename=shliakh.pdf");
       res.status(201).send(pdfBuffer);
-
-      // const outputPath = path.join(__dirname, "shliakh.pdf");
-      // const pdfStream = fs.createReadStream(outputPath);
-      // pdfStream.pipe(res);
     });
 
     pdfDoc.end();
-
-    // const printer = new PdfPrinter(fonts);
-    // const pdfDoc = printer.createPdfKitDocument(shliakh);
-
-    // // Шлях до папки temp у кореневій директорії
-    // const outputPath = path.join(__dirname, "заява.pdf");
-
-    // // Зберігаємо PDF-документ у файл
-    // pdfDoc.pipe(fs.createWriteStream(outputPath));
-    // pdfDoc.end();
-
-    // // Відправляємо PDF-документ користувачу
-    // const pdfFile = fs.readFile(outputPath);
-
-    // res.contentType("application/pdf");
-    // res.setHeader("Content-Disposition", "attachment; filename=shliakh.pdf");
-
-    // res.status(201).send(pdfFile);
 
     // // return res.status(200).json({
     // //   message: "success",
