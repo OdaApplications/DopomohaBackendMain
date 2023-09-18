@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const PdfPrinter = require("pdfmake");
 
-const createPdf = async (req, res, next) => {
+const createPdfTest = async (req, res, next) => {
   //   const requestData = req.body;
 
   try {
@@ -79,4 +79,4 @@ const createPdf = async (req, res, next) => {
   }
 };
 
-module.exports = { createPdf };
+module.exports = { createPdfTest };
