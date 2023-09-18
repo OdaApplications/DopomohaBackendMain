@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Env Capture
-        run: cp /var/www/backend/.env /var/www/backend/_work/dashboard-backend/dashboard-backend/
+        run: cp /var/www/backend/.env /var/www/backend/_work/DopomohaBackendMain/DopomohaBackendMain/
 
       - name: Install dependendencies
         run: 
