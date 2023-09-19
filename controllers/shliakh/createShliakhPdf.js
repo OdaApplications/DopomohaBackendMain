@@ -21,13 +21,6 @@ const createShliakhPdf = async (req, res, next) => {
 
   const firmFullName = `${organizationType} ${organizationName}, ${organizationAdress}`;
 
-  const pibDirectorArray = pibDirector.split(" ");
-  const firstNameFirstLetter = pibDirectorArray[1][0].toUpperCase();
-  const BNameFirstLetter = pibDirectorArray[2][0].toUpperCase();
-  console.log("letters:", firstNameFirstLetter, BNameFirstLetter);
-
-  const fullNameForSign = pibDirector;
-
   try {
     const driversList = [];
 
@@ -52,8 +45,8 @@ const createShliakhPdf = async (req, res, next) => {
         driverPassportSeries: driver.driverPassportSeries,
         driverPassportNumber: driver.driverPassportNumber,
         firmFullName,
-        driverPhone: "+380508811234",
-        driverEmail: "example@mail.com",
+        driverTel: "+380508811234",
+        driverMail: "example@mail.com",
       };
 
       driversList.push(Object.values(updatedDriver));
@@ -409,12 +402,14 @@ const createShliakhPdf = async (req, res, next) => {
           margin: [25, 0, 0, 0],
         },
         {
-          text: `${directorPosition}`,
+          text: `${
+            directorPosition.charAt(0).toUpperCase() + directorPosition.slice(1)
+          }`,
           alignment: "left",
           fontSize: 14,
         },
         {
-          text: `${fullNameForSign}`,
+          text: `${shortenFullName(pibDirector)}`,
           alignment: "right",
           fontSize: 14,
           margin: [0, -14, 0, 0],
