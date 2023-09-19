@@ -1,4 +1,4 @@
-const { createShliakhFiles } = require("./createShliakhFiles");
+const { createShliakhPdf } = require("./createShliakhPdf");
 const { sendShliakhFiles } = require("./sendShliakhFiles");
 
-module.exports = { createShliakhFiles, sendShliakhFiles };
+module.exports = { createShliakhPdf, sendShliakhFiles };

@@ -19,90 +19,17 @@ const createShliakhPdf = async (req, res, next) => {
     drivers = "дані відсутні",
   } = req.body;
 
-  console.log(
-    "++:",
-    organizationName,
-    pibDirector,
-    organizationType,
-    organizationCode,
-    organizationAdress,
-    organizationTel,
-    organizationMail,
-    pibContactPerson,
-    telContactPerson,
-    daysCount,
-    directorPosition,
-
-    drivers
-  );
-
   const firmFullName = `${organizationType} ${organizationName}, ${organizationAdress}`;
-  const date = new Date();
 
   const pibDirectorArray = pibDirector.split(" ");
   const firstNameFirstLetter = pibDirectorArray[1][0].toUpperCase();
   const BNameFirstLetter = pibDirectorArray[2][0].toUpperCase();
+  console.log("letters:", firstNameFirstLetter, BNameFirstLetter);
 
   const fullNameForSign = pibDirector;
 
-  const months = [
-    "січня",
-    "лютого",
-    "березня",
-    "квітня",
-    "травня",
-    "червня",
-    "липня",
-    "серпня",
-    "вересня",
-    "жовтня",
-    "листопада",
-    "грудня",
-  ];
-
   try {
-    const fullDate = `«${date.getDate()}» ${
-      months[date.getMonth()]
-    } ${date.getFullYear()}`;
-
-    // const newDrivers = [];
-    // let updatedDrivers = [];
-
-    const createAmountOfDrivers = function (x) {
-      let k = 0;
-      let j = 8;
-
-      for (let i = 0; i < x.length / 8; i++) {
-        updatedDrivers = [];
-        let newItem = x.slice(k, j);
-        let day = newItem[3];
-        let month = newItem[4];
-        let year = newItem[5];
-        let driverBirthDate = `${day}.${month}.${year}`;
-
-        newItem.splice(3, 3, driverBirthDate);
-
-        newItem.splice(2, 0, `${firmFullName}`);
-
-        newItem.unshift(i + 1);
-
-        updatedDrivers.push(newItem[0]);
-        updatedDrivers.push(newItem[1]);
-        updatedDrivers.push(newItem[5]);
-        updatedDrivers.push(newItem[2]);
-        updatedDrivers.push(newItem[4]);
-        updatedDrivers.push(
-          `${newItem[3]}, ЄДРПОУ ${organizationCodeForTable}`
-        );
-        updatedDrivers.push(newItem[6]);
-        updatedDrivers.push(newItem[7]);
-        newDrivers.push([...updatedDrivers]);
-        k += 8;
-        j += 8;
-      }
-    };
-
-    // createAmountOfDrivers(valDrivers);
+    const driversList = [];
 
     const headers = [
       "№ п/п",
@@ -115,9 +42,43 @@ const createShliakhPdf = async (req, res, next) => {
       "Email водія",
     ];
 
-    newDrivers.unshift(headers);
-    const arrDrivers = [...newDrivers];
+    for (let index = 0; index < drivers.length; index++) {
+      const driver = drivers[index];
 
+      const updatedDriver = {
+        driverNumber: index + 1,
+        pibDriver: driver.pibDriver,
+        driveBirth: `${driver.driverDay}.${driver.driverMonth}.${driver.driverYear}`,
+        driverPassportSeries: driver.driverPassportSeries,
+        driverPassportNumber: driver.driverPassportNumber,
+        firmFullName,
+        driverPhone: "+380508811234",
+        driverEmail: "example@mail.com",
+      };
+
+      driversList.push(Object.values(updatedDriver));
+    }
+
+    driversList.unshift(headers);
+    const arrDrivers = [...driversList];
+
+    console.log("arrDrivers:", arrDrivers);
+
+    function shortenFullName(fullName) {
+      const nameParts = fullName.split(" ");
+      if (nameParts.length < 3) {
+        return fullName;
+      }
+
+      const firstName = nameParts[0];
+      const middleInitial = nameParts[1][0];
+      const lastNameInitial = nameParts[2][0];
+
+      const shortenedName = `${firstName} ${middleInitial}. ${lastNameInitial}.`;
+      return shortenedName;
+    }
+
+    // pdf markup
     const fonts = {
       TimesNew: {
         normal: path.join(process.cwd(), "fonts", "times", "times.ttf"),
@@ -153,7 +114,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 12,
         },
         {
-          text: `код ЄДРПОУ ${organizationCode}, e-mail: ${organizationMail}`,
+          text: `код ЄДРПОУ: ${organizationCode}, e-mail: ${organizationMail}`,
           alignment: "center",
           fontSize: 12,
         },
@@ -230,7 +191,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: `Набувач гуманітарної допомоги: ${organizationName} код ЄДРПОУ ${organizationCode}, ${organizationAdress}, e-mail: ${organizationMail}.`,
+          text: `Набувач гуманітарної допомоги: ${organizationName}, код ЄДРПОУ: ${organizationCode}, ${organizationAdress}, e-mail: ${organizationMail}.`,
           alignment: "justified",
           margin: [25, 0, 0, 0],
           fontSize: 14,
@@ -242,7 +203,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: `${pibContactPerson}, номер телефону ${telContactPerson}`,
+          text: `${pibContactPerson}, номер телефону ${telContactPerson}.`,
           alignment: "justified",
           fontSize: 14,
         },
@@ -258,7 +219,7 @@ const createShliakhPdf = async (req, res, next) => {
           fontSize: 14,
         },
         {
-          text: "Заздалегідь вдячні за надане сприяння",
+          text: "Заздалегідь вдячні за надане сприяння.",
           alignment: "justified",
           fontSize: 14,
           margin: [25, 0, 0, 0],
@@ -288,12 +249,14 @@ const createShliakhPdf = async (req, res, next) => {
           margin: [25, 0, 0, 0],
         },
         {
-          text: `${directorPosition}`,
+          text: `${
+            directorPosition.charAt(0).toUpperCase() + directorPosition.slice(1)
+          }`,
           alignment: "left",
           fontSize: 14,
         },
         {
-          text: `${fullNameForSign}`,
+          text: `${shortenFullName(pibDirector)}`,
           alignment: "right",
           fontSize: 14,
           margin: [0, -14, 0, 0],
@@ -480,11 +443,6 @@ const createShliakhPdf = async (req, res, next) => {
     });
 
     pdfDoc.end();
-
-    // // return res.status(200).json({
-    // //   message: "success",
-    // //   code: 200,
-    // // });
   } catch (error) {
     return res.status(500).json({
       message: error.message,
