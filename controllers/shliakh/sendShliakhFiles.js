@@ -3,7 +3,7 @@ const { mailer } = require("../../models");
 
 const sendShliakhFiles = async (req, res, next) => {
   const {
-    to = "nickleso.work@gmail.com",
+    to = "trant755@gmail.com",
     subject = "test email",
     message = "TEST",
     headers = null,
@@ -64,6 +64,7 @@ const sendShliakhFiles = async (req, res, next) => {
       code: 200,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: "send email error",
       code: 500,
