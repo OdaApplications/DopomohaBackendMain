@@ -14,7 +14,7 @@ shliakhRouter.post("/create-shliakh", ctrlWrapper(createShliakhPdf));
 // pdf delivery
 shliakhRouter.post(
   "/send-shliakh",
-  upload.array(),
+  upload.array("files[]"),
   ctrlWrapper(sendShliakhFiles)
 );
 
