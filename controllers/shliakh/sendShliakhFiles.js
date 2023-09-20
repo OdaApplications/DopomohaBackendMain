@@ -7,7 +7,6 @@ const sendShliakhFiles = async (req, res, next) => {
     to = "nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com",
     subject = "test email",
     message = "test",
-    headers = "Content-Disposition: attachment;",
     organizationName = "tes",
     organizationTel = "test phone number",
   } = req.body;
