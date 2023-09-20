@@ -4,15 +4,14 @@ const { mailer } = require("../../models");
 
 const sendShliakhFiles = async (req, res, next) => {
   const {
-    to = "nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com",
     subject = "test email",
     message = "test",
-    // headers = "Content-Disposition: attachment;",
-    organizationName = "tes",
+    organizationMail = null,
+    organizationName = "test name",
     organizationTel = "test phone number",
   } = req.body;
 
-  // console.log(to, subject, message, organizationName, organizationTel);
+  const emailList = `${organizationMail}, nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com`;
 
   try {
     // Отримати шляхи до завантажених файлів з req.files
@@ -35,16 +34,17 @@ const sendShliakhFiles = async (req, res, next) => {
       });
     }
 
-    // Надіслати листа з вкладенням
+    // Надіслати лист з вкладенням
     await mailer.sendMail({
       from: "info@dopomoha.carpathia.gov.ua",
-      to,
+      to: emailList,
+      organizationMail,
       subject: `${organizationName}. Заявка на Шлях.`,
       text: `${organizationName}. Заявка на Шлях. 
-      \nКонтактний номер телефону: ${organizationTel}`,
+      \nКонтактний номер телефону: ${organizationTel}
+      \nE-mail: ${organizationMail}`,
 
       attachments,
-      // headers,
     });
 
     // Видалити тимчасові файли
