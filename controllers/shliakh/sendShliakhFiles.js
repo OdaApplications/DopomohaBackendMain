@@ -4,8 +4,6 @@ const { mailer } = require("../../models");
 
 const sendShliakhFiles = async (req, res, next) => {
   const {
-    subject = "test email",
-    message = "test",
     organizationMail = null,
     organizationName = "test name",
     organizationTel = "test phone number",
