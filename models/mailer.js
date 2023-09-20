@@ -11,6 +11,7 @@ const mailer = nodemailer.createTransport({
     user: MAILER_USERNAME,
     pass: MAILER_PASS,
   },
+  debug: true,
 });
 
 module.exports = { mailer };

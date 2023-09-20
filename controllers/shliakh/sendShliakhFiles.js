@@ -1,15 +1,18 @@
 const fs = require("fs");
+const path = require("path");
 const { mailer } = require("../../models");
 
 const sendShliakhFiles = async (req, res, next) => {
   const {
-    to = "trant755@gmail.com",
+    to = "nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com",
     subject = "test email",
-    message = "TEST",
-    headers = null,
+    message = "test",
+    headers = "Content-Disposition: attachment;",
+    organizationName = "tes",
+    organizationTel = "test phone number",
   } = req.body;
 
-  console.log(to, subject, message, headers);
+  console.log(to, subject, message, headers, organizationName, organizationTel);
 
   try {
     // Отримати шляхи до завантажених файлів з req.files
@@ -23,33 +26,25 @@ const sendShliakhFiles = async (req, res, next) => {
       });
     }
 
-    const attachments = uploadedFiles.map((file) => {
-      let contentType;
+    const attachments = [];
 
-      // Перевірити розширення файлу
-      if (file.originalname.endsWith(".pdf")) {
-        contentType = "application/pdf";
-      } else if (file.originalname.endsWith(".zip")) {
-        contentType = "application/zip";
-      } else {
-        // Якщо розширення не відомо, то залишити contentType порожнім або іншим значенням за замовчуванням
-        contentType = "application/octet-stream"; // Інше значення за замовчуванням
-      }
-
-      return {
+    for await (const [index, file] of Object.entries(uploadedFiles)) {
+      attachments.push({
         filename: file.originalname,
-        path: file.path,
-        contentType,
-      };
-    });
+        content: fs.createReadStream(file.path),
+      });
+    }
 
     // Надіслати листа з вкладенням
     await mailer.sendMail({
-      from: process.env.MAILER_USERNAME,
+      from: "info@dopomoha.carpathia.gov.ua",
       to,
-      subject,
-      text: message,
+      subject: `${organizationName}. Заявка на Шлях.`,
+      text: `${organizationName}. Заявка на Шлях. 
+      \nКонтактний номер телефону: ${organizationTel}`,
+
       attachments,
+      // headers,
     });
 
     // Видалити тимчасові файли
@@ -66,7 +61,7 @@ const sendShliakhFiles = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      message: "send email error",
+      message: error.message,
       code: 500,
     });
   }
