@@ -11,7 +11,7 @@ const sendShliakhFiles = async (req, res, next) => {
     organizationTel = "test phone number",
   } = req.body;
 
-  const emailList = `${organizationMail}, nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com`;
+  const emailList = `${organizationMail}, info@dopomoha.carpathia.gov.ua, admin@carpathia.gov.ua, peretin.kordon@gmail.com`;
 
   try {
     // Отримати шляхи до завантажених файлів з req.files
@@ -34,6 +34,8 @@ const sendShliakhFiles = async (req, res, next) => {
       });
     }
 
+    const date = new Date();
+
     // Надіслати лист з вкладенням
     await mailer.sendMail({
       from: "info@dopomoha.carpathia.gov.ua",
@@ -41,8 +43,9 @@ const sendShliakhFiles = async (req, res, next) => {
       organizationMail,
       subject: `${organizationName}. Заявка на Шлях.`,
       text: `${organizationName}. Заявка на Шлях. 
+      \nDate: ${date.toLocaleString()}
       \nКонтактний номер телефону: ${organizationTel}
-      \nE-mail: ${organizationMail}`,
+      \nКонтактний e-mail: ${organizationMail}`,
 
       attachments,
     });
