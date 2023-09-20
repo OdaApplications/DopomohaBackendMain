@@ -7,11 +7,12 @@ const sendShliakhFiles = async (req, res, next) => {
     to = "nickleso.work@gmail.com, trant755@gmail.com, Valentyn.patskan@gmail.com",
     subject = "test email",
     message = "test",
+    // headers = "Content-Disposition: attachment;",
     organizationName = "tes",
     organizationTel = "test phone number",
   } = req.body;
 
-  console.log(to, subject, message, headers, organizationName, organizationTel);
+  // console.log(to, subject, message, organizationName, organizationTel);
 
   try {
     // Отримати шляхи до завантажених файлів з req.files
