@@ -42,7 +42,7 @@ const sendShliakhFiles = async (req, res, next) => {
     await mailer.sendMail({
       from: "info@dopomoha.carpathia.gov.ua",
       to: emailList,
-      subject: `${driversArray[0].pibDriver}`,
+      subject: `${organizationName}. ${driversArray[0].pibDriver}`,
       text: `${organizationName}. Заявка на Шлях. 
       \nDate: ${date.toLocaleString()}
       \nКонтактний номер телефону: ${organizationTel}
