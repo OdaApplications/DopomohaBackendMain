@@ -1,21 +1,22 @@
 const express = require("express");
 const shliakhRouter = express.Router();
 
-const { ctrlWrapper, upload } = require("../../middlewares");
+const { ctrlWrapper, upload, sendShliakhFiles } = require("../../middlewares");
 
 const {
   createShliakhPdf,
-  sendShliakhFiles,
+  addShliakhDriversToDB,
 } = require("../../controllers/shliakh");
 
-// pdf creation
+// shliakh creation
 shliakhRouter.post("/create-shliakh", ctrlWrapper(createShliakhPdf));
 
-// pdf delivery
+// shliakh send and DB
 shliakhRouter.post(
   "/send-shliakh",
   upload.array("files"),
-  ctrlWrapper(sendShliakhFiles)
+  ctrlWrapper(sendShliakhFiles),
+  ctrlWrapper(addShliakhDriversToDB)
 );
 
 module.exports = shliakhRouter;

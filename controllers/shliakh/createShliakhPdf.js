@@ -41,12 +41,12 @@ const createShliakhPdf = async (req, res, next) => {
       const updatedDriver = {
         driverNumber: index + 1,
         pibDriver: driver.pibDriver,
-        driveBirth: `${driver.driverDay}.${driver.driverMonth}.${driver.driverYear}`,
+        driverBirth: `${driver.driverDay}.${driver.driverMonth}.${driver.driverYear}`,
         driverPassportSeries: driver.driverPassportSeries,
         driverPassportNumber: driver.driverPassportNumber,
         firmFullName,
-        driverTel: "+380508811234",
-        driverMail: "example@mail.com",
+        driverTel: driver.driverTel,
+        driverMail: driver.driverMail,
       };
 
       driversList.push(Object.values(updatedDriver));

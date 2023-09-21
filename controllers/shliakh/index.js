@@ -1,4 +1,4 @@
+const { addShliakhDriversToDB } = require("./addShliakhDriversToDB");
 const { createShliakhPdf } = require("./createShliakhPdf");
-const { sendShliakhFiles } = require("./sendShliakhFiles");
 
-module.exports = { createShliakhPdf, sendShliakhFiles };
+module.exports = { createShliakhPdf, addShliakhDriversToDB };
