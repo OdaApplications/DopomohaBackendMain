@@ -40,7 +40,7 @@ const sendShliakhFiles = async (req, res, next) => {
 
     // Надіслати лист з вкладенням
     await mailer.sendMail({
-      from: `${organizationName}`,
+      from: "info@dopomoha.carpathia.gov.ua",
       to: emailList,
       organizationMail,
       subject: `${driversArray[0].pibDriver}`,
