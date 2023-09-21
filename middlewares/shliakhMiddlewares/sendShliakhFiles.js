@@ -6,7 +6,10 @@ const sendShliakhFiles = async (req, res, next) => {
     organizationMail = null,
     organizationName = "test name",
     organizationTel = "test phone number",
+    drivers = null,
   } = req.body;
+
+  const driversArray = JSON.parse(drivers);
 
   const { SHLIAKH_SENDER_1, SHLIAKH_SENDER_2, SHLIAKH_SENDER_3 } = process.env;
   const emailList = `${organizationMail}, ${SHLIAKH_SENDER_1}, ${SHLIAKH_SENDER_2}, ${SHLIAKH_SENDER_3}`;
@@ -34,10 +37,10 @@ const sendShliakhFiles = async (req, res, next) => {
 
     // Надіслати лист з вкладенням
     await mailer.sendMail({
-      from: "info@dopomoha.carpathia.gov.ua",
+      from: `${organizationName}`,
       to: emailList,
       organizationMail,
-      subject: `${organizationName}. Заявка на Шлях`,
+      subject: `${driversArray[0].pibDriver}`,
       text: `${organizationName}. Заявка на Шлях. 
       \nDate: ${date.toLocaleString()}
       \nКонтактний номер телефону: ${organizationTel}
