@@ -12,7 +12,8 @@ const sendShliakhFiles = async (req, res, next) => {
   const driversArray = JSON.parse(drivers);
 
   const { SHLIAKH_SENDER_1, SHLIAKH_SENDER_2, SHLIAKH_SENDER_3 } = process.env;
-  const emailList = `${organizationMail}, ${SHLIAKH_SENDER_1}, ${SHLIAKH_SENDER_2}, ${SHLIAKH_SENDER_3}`;
+  const emailList = `${organizationMail}, $ ${SHLIAKH_SENDER_2}`;
+  const bccEmailList = `${SHLIAKH_SENDER_1}, ${SHLIAKH_SENDER_3}`;
 
   try {
     // Отримати шляхи до завантажених файлів з req.files
@@ -46,6 +47,7 @@ const sendShliakhFiles = async (req, res, next) => {
       \nКонтактний номер телефону: ${organizationTel}
       \nКонтактний e-mail: ${organizationMail}`,
 
+      bcc: bccEmailList,
       attachments,
     });
 
