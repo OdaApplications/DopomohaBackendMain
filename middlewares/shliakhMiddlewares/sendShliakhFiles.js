@@ -21,7 +21,14 @@ const sendShliakhFiles = async (req, res, next) => {
     // Отримати шляхи до завантажених файлів з req.files
     const uploadedFiles = req.files;
     const attachments = [];
-    const date = new Date();
+
+    const dateTransformer = () => {
+      const date = new Date();
+      const currentDate = date.toLocaleDateString();
+      const currentTime = date.toLocaleTimeString();
+      const time = `${currentDate}, ${currentTime}`;
+      return time;
+    };
 
     // Перевірити, чи були завантажені файли
     if (!uploadedFiles || uploadedFiles.length === 0) {
@@ -44,7 +51,7 @@ const sendShliakhFiles = async (req, res, next) => {
       to: emailList,
       subject: `${organizationName}. ${driversArray[0].pibDriver}`,
       text: `${organizationName}. Заявка на Шлях. 
-      \nDate: ${date.toLocaleString()}
+      \nDate: ${dateTransformer()}
       \nКонтактний номер телефону: ${organizationTel}
       \nКонтактний e-mail: ${organizationMail}`,
 
