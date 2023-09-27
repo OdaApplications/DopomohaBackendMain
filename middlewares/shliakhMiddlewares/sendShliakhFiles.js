@@ -8,6 +8,7 @@ const sendShliakhFiles = async (req, res, next) => {
     organizationTel = "test phone number",
     drivers = null,
   } = req.body;
+  
 
   const driversArray = JSON.parse(drivers);
 

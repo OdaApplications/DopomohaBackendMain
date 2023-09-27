@@ -55,8 +55,6 @@ const createShliakhPdf = async (req, res, next) => {
     driversList.unshift(headers);
     const arrDrivers = [...driversList];
 
-    console.log("arrDrivers:", arrDrivers);
-
     function shortenFullName(fullName) {
       const nameParts = fullName.split(" ");
       if (nameParts.length < 3) {
