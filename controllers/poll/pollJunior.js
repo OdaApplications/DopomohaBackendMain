@@ -1,8 +1,6 @@
 const { pool } = require("../../models");
 
 const pollJunior = async (req, res, next) => {
-  console.log("++++");
-
   const {
     sex = null,
     age = null,
