@@ -7,6 +7,9 @@ const pool = mysql.createConnection({
   user: DBUSER,
   password: PASSWORD,
   database: DB,
+  connectTimeout: 10000, // Таймаут для встановлення з'єднання в мілісекундах (10 секунд)
+  acquireTimeout: 10000, // Максимальний час очікування з'єднання в мілісекундах (10 секунд)
+  timeout: 60000, // Максимальний час виконання запиту в мілісекундах (60 секунд)
 });
 
 const connectToSQL = async () => {

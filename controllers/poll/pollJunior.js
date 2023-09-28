@@ -36,14 +36,14 @@ const pollJunior = async (req, res, next) => {
         isVpo,
         arriveFrom,
         status,
-        badInHromada,
+        badInHromada.join("; "),
         readyForChangeHrom,
         whatWantToChange,
         doYouNowEventsInHrom,
-        whatTypeEventsToIncrease,
+        whatTypeEventsToIncrease.join("; "),
         wantToOrgEvents,
         whereTakeRes,
-        whatInfoToSee,
+        whatInfoToSee.join("; "),
         isStudOrgsInHrom,
         howStudOrgsWork,
         isJuniorRadaInHrom,
@@ -57,13 +57,13 @@ const pollJunior = async (req, res, next) => {
             code: 404,
           });
         }
+
+        return res.status(200).json({
+          message: "poll data added",
+          code: 200,
+        });
       }
     );
-
-    return res.status(200).json({
-      message: "poll data added",
-      code: 200,
-    });
   } catch (error) {
     return res.status(500).json({
       message: error.message,
