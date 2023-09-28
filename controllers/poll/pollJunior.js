@@ -23,7 +23,6 @@ const pollJunior = async (req, res, next) => {
     whatInHuniorHub = null,
   } = req.body;
 
-  console.log("req:", req);
   console.log("req.body:", req.body);
 
   try {
