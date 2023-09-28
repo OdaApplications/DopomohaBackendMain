@@ -37,14 +37,14 @@ const pollJunior = async (req, res, next) => {
       isVpo,
       arriveFrom,
       status,
-      JSON.parse(badInHromada).join("; "),
+      badInHromada.join("; "),
       readyForChangeHrom,
       whatWantToChange,
       doYouNowEventsInHrom,
-      JSON.parse(whatTypeEventsToIncrease).join("; "),
+      whatTypeEventsToIncrease.join("; "),
       wantToOrgEvents,
       whereTakeRes,
-      JSON.parse(whatInfoToSee).join("; "),
+      whatInfoToSee.join("; "),
       isStudOrgsInHrom,
       howStudOrgsWork,
       isJuniorRadaInHrom,
@@ -61,14 +61,14 @@ const pollJunior = async (req, res, next) => {
         isVpo,
         arriveFrom,
         status,
-        JSON.parse(badInHromada).join("; "),
+        badInHromada.join("; "),
         readyForChangeHrom,
         whatWantToChange,
         doYouNowEventsInHrom,
-        JSON.parse(whatTypeEventsToIncrease).join("; "),
+        whatTypeEventsToIncrease.join("; "),
         wantToOrgEvents,
         whereTakeRes,
-        JSON.parse(whatInfoToSee).join("; "),
+        whatInfoToSee.join("; "),
         isStudOrgsInHrom,
         howStudOrgsWork,
         isJuniorRadaInHrom,
@@ -90,6 +90,7 @@ const pollJunior = async (req, res, next) => {
       }
     );
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: error.message,
       code: 500,
