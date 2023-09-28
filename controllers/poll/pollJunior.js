@@ -58,9 +58,9 @@ const pollJunior = async (req, res, next) => {
           });
         }
 
-        return res.status(200).json({
+        return res.status(201).json({
           message: "poll data added",
-          code: 200,
+          code: 201,
         });
       }
     );
