@@ -23,34 +23,9 @@ const pollJunior = async (req, res, next) => {
     whatInHuniorHub = null,
   } = req.body;
 
-  console.log("req.body:", req.body);
-
   try {
     const newDriverQuery =
       "INSERT INTO poll_junior (sex, age, fromHromada, isVpo, arriveFrom, status, badInHromada, readyForChangeHrom, whatWantToChange, doYouNowEventsInHrom, whatTypeEventsToIncrease, wantToOrgEvents, whereTakeRes, whatInfoToSee, isStudOrgsInHrom, howStudOrgsWork, isJuniorRadaInHrom, isJuniorHub, whatInHuniorHub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    console.log(
-      "+++++:",
-      sex,
-      age,
-      fromHromada,
-      isVpo,
-      arriveFrom,
-      status,
-      badInHromada.join("; "),
-      readyForChangeHrom,
-      whatWantToChange,
-      doYouNowEventsInHrom,
-      whatTypeEventsToIncrease.join("; "),
-      wantToOrgEvents,
-      whereTakeRes,
-      whatInfoToSee.join("; "),
-      isStudOrgsInHrom,
-      howStudOrgsWork,
-      isJuniorRadaInHrom,
-      isJuniorHub,
-      whatInHuniorHub
-    );
 
     pool.query(
       newDriverQuery,
@@ -90,7 +65,6 @@ const pollJunior = async (req, res, next) => {
       }
     );
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: error.message,
       code: 500,
