@@ -5,6 +5,7 @@ const cors = require("cors");
 const testRouter = require("./routes/api/testRouter");
 const shliakhRouter = require("./routes/api/shliakhRouter");
 const pollRouter = require("./routes/api/pollRouter");
+const veteranDogRouter = require("./routes/api/veteranDogRouter");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/test", testRouter);
 app.use("/api/shliakh", shliakhRouter);
 app.use("/api/poll", pollRouter);
+app.use("/api/veteran-dog", veteranDogRouter);
 
 app.use((req, res) => {
   res.status(404).json({
