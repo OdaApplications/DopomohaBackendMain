@@ -8,17 +8,25 @@ const veteranDog = async (req, res, next) => {
     pool.query(
       newDriverQuery,
       [
-        req.body["Ім'я"] +
+        req.body["wpforms[fields][1]"] +
           " " +
-          req.body["Прізвище"] +
+          req.body["wpforms[fields][2]"] +
           " " +
-          req.body["По-батькові"],
-        req.body["Дата-народження"],
-        req.body["Попереднє-місце-служби"],
-        req.body["Дата-звільнення-з-військової-служби"],
-        req.body["Підстава-звільнення"],
-        req.body["Місце-фактичного-проживання"],
-        req.body["Контактний-номер-телефону"],
+          req.body["wpforms[fields][3]"],
+        req.body["wpforms[fields][5][date][d]"] +
+          "/" +
+          req.body["wpforms[fields][5][date][m]"] +
+          "/" +
+          req.body["wpforms[fields][5][date][y]"],
+        req.body["wpforms[fields][6]"],
+        req.body["wpforms[fields][7][date][d]"] +
+          "/" +
+          req.body["wpforms[fields][7][date][m]"] +
+          "/" +
+          req.body["wpforms[fields][7][date][y]"],
+        req.body["wpforms[fields][8]"],
+        req.body["wpforms[fields][10]"],
+        req.body["wpforms[fields][11]"],
       ],
 
       (err, result) => {
