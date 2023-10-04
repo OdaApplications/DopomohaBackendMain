@@ -44,7 +44,7 @@ const pollJunior = async (req, res, next) => {
         wantToOrgEvents,
         whereTakeRes,
         whatInfoToSee.join("; "),
-        isStudOrgsInHrom,
+        isStudOrgsInHrom.join("; "),
         howStudOrgsWork,
         isJuniorRadaInHrom,
         isJuniorHub,
