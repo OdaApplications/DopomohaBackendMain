@@ -7,7 +7,7 @@ const changeVeteranStatus = async (req, res, next) => {
   console.log("ID:", ID);
 
   try {
-    const newDriverQuery = `INSERT INTO dc_users (veteran_status) VALUES (?) WHERE ID = ?`;
+    const newDriverQuery = `UPDATE dc_users SET veteran_status = ? WHERE ID = ?`;
 
     pool.query(newDriverQuery, [0, ID], (err, result) => {
       if (err) {
