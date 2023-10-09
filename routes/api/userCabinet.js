@@ -10,7 +10,7 @@ changeVeteranStatus;
 
 // change vetaran stutus and send email
 userCabinet.post(
-  "/vateran/change-status",
+  "/veteran/change-status",
   upload.array("files"),
   getUserData,
   ctrlWrapper(changeVeteranStatus)
