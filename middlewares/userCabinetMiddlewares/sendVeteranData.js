@@ -4,6 +4,9 @@ const { mailer } = require("../../models");
 const sendVeteranData = async (req, res, next) => {
   const { id = null, display_name = null } = req.user;
 
+  console.log("req.user in send:", req.user);
+  console.log("req.files:", req.files);
+
   // const { SHLIAKH_SENDER_1, SHLIAKH_SENDER_2, SHLIAKH_SENDER_3 } = process.env;
 
   try {
@@ -50,6 +53,8 @@ const sendVeteranData = async (req, res, next) => {
 
     // Видалити тимчасові файли
     for (const file of uploadedFiles) {
+      console.log("file:", file);
+
       fs.unlink(file.path, (err) => {
         if (err) console.log(err);
       });

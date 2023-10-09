@@ -3,10 +3,12 @@ const { pool } = require("../../models");
 const changeVeteranStatus = async (req, res, next) => {
   const { id = null } = req.user;
 
-  try {
-    const newDriverQuery = `INSERT INTO dc_users (veteran_status) VALUES (?) WHERE ID = ${id}`;
+  console.log("req.user in End:", req.user);
 
-    pool.query(newDriverQuery, [0], (err, result) => {
+  try {
+    const newDriverQuery = `INSERT INTO dc_users (veteran_status) VALUES (?) WHERE ID = ?`;
+
+    pool.query(newDriverQuery, [0, id], (err, result) => {
       if (err) {
         return res.status(404).json({
           message: err.message,
