@@ -1,7 +1,12 @@
 const express = require("express");
 const userCabinet = express.Router();
 
-const { ctrlWrapper, getUserData, upload } = require("../../middlewares");
+const {
+  ctrlWrapper,
+  getUserData,
+  upload,
+  sendVeteranData,
+} = require("../../middlewares");
 const {
   changeVeteranStatus,
 } = require("../../controllers/userCabinet/changeVeteranStatus");
@@ -13,6 +18,7 @@ userCabinet.post(
   "/veteran/change-status",
   upload.array("files"),
   getUserData,
+  sendVeteranData,
   ctrlWrapper(changeVeteranStatus)
 );
 
