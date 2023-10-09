@@ -3,6 +3,8 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const testRouter = require("./routes/api/testRouter");
+
+const userCabinet = require("./routes/api/userCabinet");
 const shliakhRouter = require("./routes/api/shliakhRouter");
 const pollRouter = require("./routes/api/pollRouter");
 const veteranDogRouter = require("./routes/api/veteranDogRouter");
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/test", testRouter);
+
+app.use("/api/user-cabinet", userCabinet);
 app.use("/api/shliakh", shliakhRouter);
 app.use("/api/poll", pollRouter);
 app.use("/api/veteran-dog", veteranDogRouter);
