@@ -8,6 +8,7 @@ const userCabinet = require("./routes/api/userCabinet");
 const shliakhRouter = require("./routes/api/shliakhRouter");
 const pollRouter = require("./routes/api/pollRouter");
 const veteranDogRouter = require("./routes/api/veteranDogRouter");
+const ambassadorRouter = require("./routes/api/ambassadorRouter");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -23,6 +24,7 @@ app.use("/api/user-cabinet", userCabinet);
 app.use("/api/shliakh", shliakhRouter);
 app.use("/api/poll", pollRouter);
 app.use("/api/veteran-dog", veteranDogRouter);
+app.use("/api/ambassador", ambassadorRouter);
 
 app.use((req, res) => {
   res.status(404).json({

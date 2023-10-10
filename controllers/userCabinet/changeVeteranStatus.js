@@ -3,9 +3,6 @@ const { pool } = require("../../models");
 const changeVeteranStatus = async (req, res, next) => {
   const { ID = null } = req.user;
 
-  console.log("req.user in End:", req.user);
-  console.log("ID:", ID);
-
   try {
     const newDriverQuery = `UPDATE dc_users SET veteran_status = ? WHERE ID = ?`;
 
@@ -18,12 +15,11 @@ const changeVeteranStatus = async (req, res, next) => {
       }
 
       return res.status(201).json({
-        message: "poll data added",
+        message: "veteran status changed",
         code: 201,
       });
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: error.message,
       code: 500,
