@@ -2,13 +2,11 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 
-const testRouter = require("./routes/api/testRouter");
-
 const userCabinet = require("./routes/api/userCabinet");
 const shliakhRouter = require("./routes/api/shliakhRouter");
 const pollRouter = require("./routes/api/pollRouter");
 const veteranDogRouter = require("./routes/api/veteranDogRouter");
-const ambassadorRouter = require("./routes/api/ambassadorRouter");
+const veteranServicesRouter = require("./routes/api/veteranServicesRouter");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -18,13 +16,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/test", testRouter);
-
 app.use("/api/user-cabinet", userCabinet);
 app.use("/api/shliakh", shliakhRouter);
 app.use("/api/poll", pollRouter);
 app.use("/api/veteran-dog", veteranDogRouter);
-app.use("/api/ambassador", ambassadorRouter);
+
+app.use("/api/veteran-services", veteranServicesRouter);
 
 app.use((req, res) => {
   res.status(404).json({
