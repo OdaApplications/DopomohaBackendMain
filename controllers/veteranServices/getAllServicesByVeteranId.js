@@ -27,9 +27,6 @@ const getAllServicesByVeteranId = async (req, res, next) => {
         });
       }
 
-      console.log("table search  results length:", result.length);
-      console.log("table search  results:", result);
-
       async function veteranServicesSearch() {
         const veteranServicesArr = [];
 
@@ -47,7 +44,6 @@ const getAllServicesByVeteranId = async (req, res, next) => {
                 }
 
                 veteranServicesArr.push(results[0]);
-                console.log("results[0]):", results);
                 resolve();
               }
             });
@@ -58,7 +54,6 @@ const getAllServicesByVeteranId = async (req, res, next) => {
         return veteranServicesArr;
       }
       const data = await veteranServicesSearch();
-      console.log("servicesData:", data);
 
       if (data.length === 0) {
         return res.status(404).json({
