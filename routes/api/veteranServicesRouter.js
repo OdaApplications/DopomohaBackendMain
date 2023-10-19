@@ -6,6 +6,7 @@ const {
   getAllServicesByVeteranId,
   getVeteranServicesTablesList,
   addVeteranToService,
+  changeServiceStatus,
 } = require("../../controllers/veteranServices");
 const {
   isVeteranAlreadyHasService,
@@ -26,10 +27,10 @@ veteranServicesRouter.post(
 );
 
 //зміна статусу в таблиці послуг
-veteranServicesRouter.post(
+veteranServicesRouter.patch(
   "/:table",
   isVeteranCheck,
-  ctrlWrapper(addVeteranToService)
+  ctrlWrapper(changeServiceStatus)
 );
 
 module.exports = veteranServicesRouter;
