@@ -25,4 +25,11 @@ veteranServicesRouter.post(
   ctrlWrapper(addVeteranToService)
 );
 
+//зміна статусу в таблиці послуг
+veteranServicesRouter.post(
+  "/:table",
+  isVeteranCheck,
+  ctrlWrapper(addVeteranToService)
+);
+
 module.exports = veteranServicesRouter;
