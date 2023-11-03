@@ -26,7 +26,7 @@ veteranServicesRouter.post(
   ctrlWrapper(addVeteranToService)
 );
 
-//зміна статусу в таблиці послуг 12131
+//зміна статусу в таблиці послуг
 veteranServicesRouter.patch(
   "/:table",
   isVeteranCheck,

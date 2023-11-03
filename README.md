@@ -4,10 +4,13 @@ Dopomoha backend main - Node.js, MYSQL
 
 # todo
 
--pdf
--mailer
+-veteran cabinet
 
 # done
+
+-shliakh
+-poll junior
+-veteran dog
 
 # future todo
 
